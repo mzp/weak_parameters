@@ -1,6 +1,6 @@
 module WeakParameters
   class BaseValidator
-    attr_reader :controller, :key, :options, :block
+    attr_reader :controller, :options, :block
 
     def initialize(controller, key, options = {}, &block)
       @controller = controller
@@ -9,7 +9,9 @@ module WeakParameters
       @block = block
     end
 
-    def validate
+    def validate(*path, index: nil)
+      @path = path
+      @index = index
       handle_failure unless valid?
     end
 
@@ -19,6 +21,10 @@ module WeakParameters
 
     def type
       self.class.name.split("::").last.sub(/Validator$/, "").underscore.to_sym
+    end
+
+    def key
+      @key || @index
     end
 
     private
@@ -57,8 +63,14 @@ module WeakParameters
       end
     end
 
+    def path
+      @path ||= []
+    end
+
     def params
-      controller.params
+      path.inject(controller.params) { |params, key|
+        params[key]
+      }
     end
 
     def value
