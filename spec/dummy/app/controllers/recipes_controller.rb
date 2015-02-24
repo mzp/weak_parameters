@@ -19,9 +19,11 @@ class RecipesController < ApplicationController
 
     list :numbers, :integer, description: 'some numbers'
 
-    list :items, :object, description: 'some items' do
-      string :name
-      integer :price
+    object :body do
+      list :items, :object, description: 'some items' do
+        string :name
+        integer :price
+      end
     end
   end
 

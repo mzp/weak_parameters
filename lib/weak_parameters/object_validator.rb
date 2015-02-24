@@ -6,9 +6,14 @@ module WeakParameters
       @validators = validators
     end
 
-    def validate(*keys, index: nil)
+    def validate(*args)
       super
-      validators.each { |validator| validator.validate(*(keys + [ key ]).compact, index: index) } if valid? && exist?
+
+      if valid? && exist?
+        validators.each do |validator|
+          validator.validate(*path)
+        end
+      end
     end
 
     private

@@ -6,12 +6,12 @@ module WeakParameters
       @validator = validator
     end
 
-    def validate(*keys)
+    def validate(*args)
       super
 
       if valid? && exist?
-        params.each.with_index do |_, i|
-          validator.validate(*keys, key, index: i)
+        value.each.with_index do |_, i|
+          validator.validate(*path, i)
         end
       end
     end

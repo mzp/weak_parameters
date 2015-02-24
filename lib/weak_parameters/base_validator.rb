@@ -9,9 +9,8 @@ module WeakParameters
       @block = block
     end
 
-    def validate(*path, index: nil)
+    def validate(*path)
       @path = path
-      @index = index
       handle_failure unless valid?
     end
 
@@ -21,10 +20,6 @@ module WeakParameters
 
     def type
       self.class.name.split("::").last.sub(/Validator$/, "").underscore.to_sym
-    end
-
-    def key
-      @key || @index
     end
 
     private
@@ -64,13 +59,17 @@ module WeakParameters
     end
 
     def path
-      @path ||= []
+      (@path + [ @key ]).compact
     end
 
     def params
-      path.inject(controller.params) { |params, key|
+      path[0...-1].inject(controller.params) { |params, key|
         params[key]
       }
+    end
+
+    def key
+      path[-1]
     end
 
     def value

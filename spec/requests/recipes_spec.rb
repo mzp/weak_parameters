@@ -17,10 +17,12 @@ describe "Recipes", type: :request do
         number: 0
       },
       numbers: [1, 2, 3],
-      items: [
-        { name: "foo", price: 100 },
-        { name: "bar", price: 100 }
-      ]
+      body: {
+        items: [
+          { name: "foo", price: 100 },
+          { name: "bar", price: 100 }
+        ]
+      }
     }
   end
 
@@ -169,7 +171,7 @@ describe "Recipes", type: :request do
 
     context "with complex params" do
       before do
-        params[:items] << { price: "xxx" }
+        params[:body][:items] << { price: "xxx" }
       end
       include_examples "400"
     end
