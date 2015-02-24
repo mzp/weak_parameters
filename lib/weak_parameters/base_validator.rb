@@ -22,6 +22,10 @@ module WeakParameters
       self.class.name.split("::").last.sub(/Validator$/, "").underscore.to_sym
     end
 
+    def key
+      path[-1]
+    end
+
     private
 
     def valid?
@@ -66,10 +70,6 @@ module WeakParameters
       path[0...-1].inject(controller.params) { |params, key|
         params[key]
       }
-    end
-
-    def key
-      path[-1]
     end
 
     def value
