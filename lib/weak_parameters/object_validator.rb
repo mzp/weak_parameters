@@ -32,8 +32,8 @@ module WeakParameters
     end
 
     def error_message
-      prefix = keys.map { |k| "[#{k.inspect}]" }.join ''
-      "params#{prefix}[#{key.inspect}] must be a valid Hash"
+      keys = path.map { |k| "[#{k.inspect}]" }.join ''
+      "params#{keys} must be a valid Hash"
     end
   end
 end
